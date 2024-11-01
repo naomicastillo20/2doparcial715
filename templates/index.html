@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="menu-principal">
+        <h1>Bienvenido a Cuentas por Pagar</h1>
+        <div class="menu-container">
+            {% if current_user.is_authenticated %}
+                {% if current_user.role == 'admin' %}
+                    <!-- Opciones exclusivas para el rol admin -->
+                    <a href="{{ url_for('agregar_proveedor') }}" class="menu-button">Agregar Proveedor</a>
+                    <a href="{{ url_for('listar_proveedores') }}" class="menu-button">Listar Proveedores</a>
+                    <a href="{{ url_for('agregar_deuda') }}" class="menu-button">Agregar Deuda</a>
+                    <a href="{{ url_for('listar_deudas') }}" class="menu-button">Listar Deudas</a>
+                {% endif %}
+
+                <!-- Opciones disponibles para ambos roles -->
+                <a href="{{ url_for('agregar_factura') }}" class="menu-button">Agregar Factura</a>
+                <a href="{{ url_for('listar_facturas') }}" class="menu-button">Listar Facturas</a>
+                <a href="{{ url_for('registrar_pago') }}" class="menu-button">Registrar Pago</a>
+                <a href="{{ url_for('listar_pagos') }}" class="menu-button">Listar Pagos</a>
+                <a href="{{ url_for('contacto') }}" class="menu-button">Contacto</a>
+            {% else %}
+                <p>Por favor, <a href="{{ url_for('login') }}">inicia sesión</a> para acceder al menú.</p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

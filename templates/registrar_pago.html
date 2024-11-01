@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="login-container">
+        <h1>Registrar Pago</h1>
+        <form method="POST" action="/registrar_pago" id="payment-form" onsubmit="return validatePaymentForm()">
+            <label for="factura_id">Factura ID:</label>
+            <input type="text" id="factura_id" name="factura_id" required><br><br>
+            
+            <label for="monto">Monto:</label>
+            <input type="number" id="monto" name="monto" required><br><br>
+            
+            <label for="fecha">Fecha:</label>
+            <input type="date" id="fecha" name="fecha" required><br><br>
+            
+            <label for="metodo_pago">Método de Pago:</label>
+            <select id="metodo_pago" name="metodo_pago" required>
+                <option value="">Seleccione un método</option>
+                <option value="tarjeta">Tarjeta de Crédito</option>
+                <option value="efectivo">Efectivo</option>
+                <option value="transferencia">Transferencia</option>
+                <option value="deposito">Depósito</option>
+            </select><br><br>
+
+            <button type="submit" class="menu-button">Registrar</button>
+        </form>
+        <a href="/" class="menu-button">Volver al Menú Principal</a>
+    </div>
+
+    <script>
+        function validatePaymentForm() {
+            const facturaId = document.getElementById('factura_id').value.trim();
+            const monto = parseFloat(document.getElementById('monto').value);
+
+            // Validación del ID de factura
+            if (facturaId === "") {
+                alert("El ID de la factura es obligatorio.");
+                return false;
+            }
+
+            // Validación del monto
+            if (isNaN(monto) || monto <= 0) {
+                alert("El monto debe ser un número positivo.");
+                return false;
+            }
+
+            // Si todas las validaciones pasan
+            return true;
+        }
+    </script>
+{% endblock %}

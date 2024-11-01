@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="login-container">
+        <h1>Listar Pagos</h1>
+        <div class="search-container">
+            <label for="search">Buscar:</label>
+            <input type="text" id="search" placeholder="Buscar por ID o monto" oninput="filterResults()">
+            <button onclick="filterTable()" class="menu-button">Buscar</button>
+        </div>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Monto</th>
+                    <th>Fecha</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="results-body">
+                {% for pago in pagos %}
+                <tr>
+                    <td>{{ pago[0] }}</td>
+                    <td>{{ pago[1] }}</td>
+                    <td>{{ pago[2] }}</td>
+                    <td>
+                        <a href="/editar_pago/{{ pago[0] }}" class="menu-button">Editar</a>
+                        <form action="/eliminar_pago/{{ pago[0] }}" method="POST" style="display:inline;">
+                            <button type="submit" class="menu-button-eliminar" onclick="return confirm('¿Estás seguro de que deseas eliminar este pago?');">Eliminar</button>
+                        </form>                    
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a href="/" class="menu-button">Volver al Menú Principal</a>
+    </div>
+
+    <script>
+        // Función para filtrar resultados
+        function filterResults() {
+            const searchValue = document.getElementById('search').value.toLowerCase();
+            const resultsBody = document.getElementById('results-body');
+            const rows = resultsBody.getElementsByTagName('tr');
+
+            for (let i = 0; i < rows.length; i++) {
+                const cells = rows[i].getElementsByTagName('td');
+                let rowContainsSearchTerm = false;
+
+                for (let j = 0; j < cells.length; j++) {
+                    if (cells[j].innerText.toLowerCase().includes(searchValue)) {
+                        rowContainsSearchTerm = true;
+                        break;
+                    }
+                }
+
+                rows[i].style.display = rowContainsSearchTerm ? '' : 'none'; // Mostrar u ocultar la fila
+            }
+        }
+    </script>
+{% endblock %}

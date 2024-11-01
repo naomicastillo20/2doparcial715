@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="login-container">
+        <h1>Agregar Proveedor</h1>
+        <form method="POST" action="/agregar_proveedor" onsubmit="return validateForm()">
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required><br><br>
+            
+            <label for="email">Correo Electrónico:</label>
+            <input type="email" id="email" name="email" required><br><br>
+            
+            <label for="telefono">Teléfono:</label>
+            <input type="text" id="telefono" name="telefono" required oninput="validatePhone()">
+
+            <button type="submit" class="menu-button">Agregar</button>
+        </form>
+        <a href="/" class="menu-button">Volver al Menú Principal</a>
+    </div>
+
+    <script>
+        function validateForm() {
+            const nombre = document.getElementById('nombre').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const telefono = document.getElementById('telefono').value.trim();
+
+            // Validar nombre
+            if (nombre === '') {
+                alert('El nombre es obligatorio.')
+                return false;
+            }
+
+            // Validar correo electrónico
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(email)) {
+                alert('Por favor, introduce un correo electrónico válido.')
+                return false;
+            }
+
+            // Validar teléfono
+            if (telefono === '') {
+                alert('El teléfono es obligatorio.')
+                return false;
+            }
+
+            return true; // Si todo es válido
+        }
+
+        function validatePhone() {
+            const telefono = document.getElementById('telefono').value;
+            const phonePattern = /^[0-9]*$/; // Solo permitir dígitos
+
+            if (!phonePattern.test(telefono)) {
+                alert('El teléfono solo puede contener números.');
+                document.getElementById('telefono').value = telefono.replace(/[^0-9]/g, ''); // Eliminar caracteres no válidos
+            }
+        }
+    </script>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Editar Proveedor</h1>
+<form method="POST" enctype="multipart/form-data">
+    <label for="nombre">Nombre:</label>
+    <input type="text" id="nombre" name="nombre" value="{{ proveedor[1] }}" required><br><br>
+
+    <label for="email">Correo Electrónico:</label>
+    <input type="email" step="0.01" id="email" name="email" value="{{ proveedor[4] }}" required><br><br>
+
+    <label for="telefono">Teléfono:</label>
+    <input type="text" id="telefono" name="telefono" value="{{ proveedor[3] }}" required>
+    <br>
+    <br>
+    <button type="submit">Actualizar Proveedor</button>
+</form>
+{% endblock %}

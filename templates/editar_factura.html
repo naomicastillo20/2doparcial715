@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Editar Factura</h1>
+<form method="POST" enctype="multipart/form-data">
+    <label for="proveedor_id">Proveedor ID:</label>
+    <input type="text" id="proveedor_id" name="proveedor_id" value="{{ factura[1] }}" required><br><br>
+
+    <label for="monto">Monto:</label>
+    <input type="number" step="0.01" id="monto" name="monto" value="{{ factura[2] }}" required><br><br>
+
+    <label for="fecha">Fecha:</label>
+    <input type="date" id="fecha" name="fecha" value="{{ factura[3] }}" required><br><br>
+
+    <label for="fecha_vencimiento">Fecha de Vencimiento:</label>
+    <input type="date" id="fecha_vencimiento" name="fecha_vencimiento" value="{{ factura[4] }}" required><br><br>
+
+    <label for="condiciones_pago">Condiciones de Pago:</label>
+    <textarea id="condiciones_pago" name="condiciones_pago" required>{{ factura[5] }}</textarea><br><br>
+
+    <label for="archivo">Adjuntar Documento:</label>
+    <input type="file" id="archivo" name="archivo">
+    <br>
+    <br>
+    <button type="submit">Actualizar Factura</button>
+</form>
+{% endblock %}

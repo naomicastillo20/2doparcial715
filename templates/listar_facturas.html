@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="login-container">
+        <h1>Listar Facturas</h1>
+
+        <div class="search-container">
+            <form id="search-form" onsubmit="return false;">
+                <label for="search">Buscar:</label>
+                <input type="text" id="search" name="search" placeholder="Buscar por proveedor o monto" oninput="filterResults()">
+                <button onclick="filterTable()" class="menu-button">Buscar</button>
+            </form>
+        </div>
+
+        <table id="invoice-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Proveedor</th>
+                    <th>Monto</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for factura in facturas %}
+                <tr>
+                    <td>{{ factura[0] }}</td>  <!-- ID -->
+                    <td>{{ factura[1] }}</td>  <!-- Proveedor -->
+                    <td>{{ factura[2] }}</td>  <!-- Monto -->
+                    <td>
+                        <a href="/editar_factura/{{ factura[0] }}" class="menu-button">Editar</a>
+                        
+                        <form action="/eliminar_factura/{{ factura[0] }}" method="POST">
+                            <button type="submit" class="menu-button-eliminar" onclick="return confirm('¿Estás seguro de que deseas eliminar esta factura?');">Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <a href="/" class="menu-button">Volver al Menú Principal</a>
+    </div>
+
+    <script>
+        function filterResults() {
+            const searchValue = document.getElementById('search').value.toLowerCase();
+            const table = document.getElementById('invoice-table');
+            const rows = table.getElementsByTagName('tr');
+
+            // Recorre todas las filas, empezando desde la segunda (excluyendo el encabezado)
+            for (let i = 1; i < rows.length; i++) {
+                const cells = rows[i].getElementsByTagName('td');
+                let rowVisible = false;
+
+                // Comprueba si la búsqueda coincide con el proveedor o el monto
+                for (let j = 1; j < cells.length - 1; j++) { // Excluyendo la columna de acciones
+                    if (cells[j].textContent.toLowerCase().includes(searchValue)) {
+                        rowVisible = true;
+                        break;
+                    }
+                }
+
+                // Muestra u oculta la fila basada en la coincidencia
+                rows[i].style.display = rowVisible ? '' : 'none';
+            }
+        }
+    </script>
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="login-container">
+        <h1>Listar Deudas</h1>
+        <div>
+            <label for="search">Buscar Deuda:</label>
+            <input type="text" id="search" placeholder="Ingrese ID o monto..." onkeyup="filterTable()">
+            <button onclick="filterTable()" class="menu-button">Buscar</button>
+        </div>
+        <table id="deudaTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Monto</th>
+                    <th>Fecha de Vencimiento</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for deuda in deudas %}
+                <tr>
+                    <td>{{ deuda[1] }}</td>
+                    <td>{{ deuda[2] }}</td>
+                    <td>{{ deuda[3] }}</td>
+                    <td>
+                        <a href="/editar_deuda/{{ deuda[0] }}" class="menu-button">Editar</a>
+                        <form action="/eliminar_deuda/{{ deuda[0] }}" method="POST" style="display:inline;">
+                            <button type="submit" class="menu-button-eliminar" onclick="return confirm('¿Estás seguro de que deseas eliminar esta deuda?');">Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a href="/" class="menu-button">Volver al Menú Principal</a>
+    </div>
+
+    <script>
+        function filterTable() {
+            const input = document.getElementById('search');
+            const filter = input.value.toLowerCase();
+            const table = document.getElementById('deudaTable');
+            const tr = table.getElementsByTagName('tr');
+
+            // Iterar a través de las filas de la tabla y ocultar aquellas que no coincidan con la búsqueda
+            for (let i = 1; i < tr.length; i++) {
+                const tdID = tr[i].getElementsByTagName('td')[0];
+                const tdMonto = tr[i].getElementsByTagName('td')[1];
+
+                if (tdID || tdMonto) {
+                    const idValue = tdID.textContent || tdID.innerText;
+                    const montoValue = tdMonto.textContent || tdMonto.innerText;
+
+                    if (idValue.toLowerCase().indexOf(filter) > -1 || montoValue.toLowerCase().indexOf(filter) > -1) {
+                        tr[i].style.display = '';
+                    } else {
+                        tr[i].style.display = 'none';
+                    }
+                }
+            }
+        }
+    </script>
+{% endblock %}

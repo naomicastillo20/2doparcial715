@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="login-container">
+        <h1>Agregar Deuda</h1>
+        <form method="POST" action="/agregar_deuda" onsubmit="return validateForm()">
+            <label for="proveedor_id">Proveedor ID:</label>
+            <input type="text" id="proveedor_id" name="proveedor_id" required><br><br>
+            
+            <label for="monto">Monto:</label>
+            <input type="text" id="monto" name="monto" required><br><br>
+            
+            <label for="fecha_vencimiento">Fecha de Vencimiento:</label>
+            <input type="date" id="fecha_vencimiento" name="fecha_vencimiento" required>
+
+            <button type="submit" class="menu-button">Agregar</button>
+        </form>
+        <a href="/" class="menu-button">Volver al Menú Principal</a>
+    </div>
+
+    <script>
+        function validateForm() {
+            const proveedorId = document.getElementById('proveedor_id').value;
+            const monto = document.getElementById('monto').value;
+
+            // Validar que el ID del proveedor sea un número entero positivo
+            if (!/^\d+$/.test(proveedorId)) {
+                alert('Por favor, ingresa un ID de proveedor válido (número positivo).');
+                return false;
+            }
+
+            // Validar que el monto sea un número positivo
+            if (isNaN(monto) || parseFloat(monto) <= 0) {
+                alert('Por favor, ingresa un monto válido (número positivo).');
+                return false;
+            }
+
+            return true; // Formulario válido
+        }
+    </script>
+{% endblock %}

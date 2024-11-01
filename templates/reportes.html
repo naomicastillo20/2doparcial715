@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="login-container">
+        <h1>Reportes</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Tipo de Reporte</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for reporte in reportes %}
+                <tr>
+                    <td>{{ reporte.id }}</td>
+                    <td>{{ reporte.tipo }}</td>
+                    <td>
+                        <a href="/editar_reporte/{{ reporte.id }}" class="menu-button">Editar</a>
+                        <a href="/eliminar_reporte/{{ reporte.id }}" class="menu-button" onclick="return confirm('¿Estás seguro de que deseas eliminar este reporte?');">Eliminar</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a href="/" class="menu-button">Volver al Menú Principal</a>
+    </div>
+{% endblock %}
